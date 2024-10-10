@@ -1,0 +1,57 @@
+# 1. Spring config
+spring:
+  # 1-1. db config
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/menudb
+    username: ohgiraffers
+    password: ohgiraffers
+
+  # 1-2. jpa config
+  jpa:
+    generate-ddl: false
+#    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+#        '[format_sql]': true
+        format_sql: true
+#        show_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+
+# -------------------------------------------------------------------------------------------------
+# spring.jpa.properties.hibernate.use_sql_comments:
+# Hibernate가 생성하는 SQL 쿼리에 주석을 추가하여 해당 쿼리의 생성 원인을 알려준다.
+# 이는 특히 JPA가 자동으로 쿼리를 작성해낸다는 특징 때문에 개발 중 디버깅과 쿼리 분석에 유용하다.
+# -------------------------------------------------------------------------------------------------
+# 주요 주석 종류:
+# /* <criteria> */: Criteria API로 생성된 쿼리
+# /* from Menu */: HQL/JPQL로 작성된 쿼리
+# /* native SQL */: 네이티브 SQL로 작성된 쿼리
+# /* NamedQuery: 쿼리명 */: @NamedQuery로 작성된 쿼리
+# /* collection fetch: 엔티티명.필드명 */: 컬렉션 페칭(Collection Fetching)(OneToMany) 시 생성된 쿼리
+# /* subselect */: 서브쿼리가 포함된 쿼리
+# /* insert/update/delete 엔티티명 */: DML(삽입, 업데이트, 삭제) 쿼리
+# /* batch insert/update 엔티티명 */: 배치 작업 중 실행되는 쿼리
+# -------------------------------------------------------------------------------------------------
+
+# 2. logging config
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+
+# -------------------------------------------------------------------------------------------------
+# logging.level.org.hibernate.orm.jdbc.bind:
+# PreparedStatement내 ?(place holder)에 실제 런타임 시 어떤 값이 바인딩 되는지 로그를 작성해주는 설정
+# -------------------------------------------------------------------------------------------------
+# Logging Level :
+# 0. [OFF] - 로깅 비활성화 (가장 높은 레벨)
+# 1. [FATAL] - 치명적 오류 : 시스템이 종료되는 상황
+# 2. [ERROR] - 심각한 문제 : 애플리케이션이 정상 동작할 수 없는 경우
+# 3. [WARN] - 경고 : 주의가 필요한 상황이나 향후 문제가 발생할 가능성
+# 4. [INFO] - 일반적인 정보 : 애플리케이션의 정상적인 동작 흐름 (가장 많이 사용되는 디폴트 레벨)
+# 5. [DEBUG] - 디버깅을 위한 상세 정보 : 개발 중에 주로 사용
+# 6. [TRACE] - 매우 상세한 디버깅 정보 : 거의 모든 동작을 추적 (가장 낮은 레벨)
+# -------------------------------------------------------------------------------------------------
