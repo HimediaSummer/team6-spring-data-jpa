@@ -72,14 +72,15 @@ public class MenuController {
 
     }
 
-    @GetMapping("/regist")
-	public void registPage() {}
-
-	@PostMapping("/regist")
-	public String registNewMenu(MenuDTO newMenu) {
+    @GetMapping("/modify")
+	public void modifyPage() {}
+	
+	@PostMapping("/modify")
+	public String modifyMenu(MenuDTO modifyMenu) {
 		
-		menuService.registNewMenu(newMenu);
+		menuService.modifyMenu(modifyMenu);
 		
-		return "redirect:/menu/list";
+		return "redirect:/menu/" + modifyMenu.getMenuCode();
 	}
+
 }
