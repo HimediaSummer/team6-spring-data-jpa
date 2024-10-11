@@ -72,13 +72,13 @@ public class MenuController {
 
     }
 
-    @GetMapping("/regist")
-	public void registPage() {}
+	@GetMapping("/delete")
+	public void deletePage() {}
+	
+	@PostMapping("/delete")
+	public String deleteMenu(@RequestParam Integer menuCode) {
 
-	@PostMapping("/regist")
-	public String registNewMenu(MenuDTO newMenu) {
-		
-		menuService.registNewMenu(newMenu);
+		menuService.deleteMenu(menuCode);
 		
 		return "redirect:/menu/list";
 	}
