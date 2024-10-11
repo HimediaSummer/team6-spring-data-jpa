@@ -1,12 +1,12 @@
 package jpa.menu.service;
 
-import jakarta.transaction.Transactional;
 import jpa.menu.dto.MenuDTO;
 import jpa.menu.entity.Menu;
 import jpa.menu.repository.MenuRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,5 +60,11 @@ public class MenuService {
                 .stream()
                 .map(m -> modelMapper.map(m, MenuDTO.class))
                 .toList();
+    }
+
+    /* 목차. 8. delete */
+    @Transactional
+    public void deleteMenu(Integer menuCode) {
+        menuRepository.deleteById(menuCode);
     }
 }
