@@ -1,6 +1,6 @@
 ---
-name: Feature request Template
-about: 새로운 기능 추가 또는 기존 기능 수정에 대한 요청
+name: Feature request
+about: Suggest an idea for this project
 title: ''
 labels: ''
 assignees: ''
@@ -9,6 +9,7 @@ assignees: ''
 
 ---
 name: Feature request
+about: 새로운 기능 추가 또는 기존 기능 수정에 대한 요청
 title: ''
 labels: ''
 assignees: ''
