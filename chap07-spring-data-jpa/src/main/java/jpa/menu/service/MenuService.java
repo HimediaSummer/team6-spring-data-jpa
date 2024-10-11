@@ -87,4 +87,5 @@ public class MenuService {
 	public void deleteMenu(Integer menuCode) {
 		menuRepository.deleteById(menuCode);
 	}
+
 }
