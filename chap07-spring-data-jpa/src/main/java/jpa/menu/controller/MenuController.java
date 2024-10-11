@@ -69,8 +69,6 @@ public class MenuController {
 
     }
 
-    @GetMapping("/regist")
-	public void registPage() {}
 
 	@PostMapping("/regist")
 	public String registNewMenu(MenuDTO newMenu) {
@@ -90,5 +88,4 @@ public class MenuController {
 
         return "redirect:/menu/list";
     }
-
 }
