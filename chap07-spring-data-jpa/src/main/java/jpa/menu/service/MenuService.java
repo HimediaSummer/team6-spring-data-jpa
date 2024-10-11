@@ -6,6 +6,7 @@ import jpa.menu.repository.MenuRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class MenuService {
 	/* 목차. 6. save - 엔티티 저장 */
 	@Transactional
 	public void registNewMenu(MenuDTO newMenu) {
-		
+
 		/* 설명. CrudRepository에 미리 정의 되어 있는 save() 메소드를 통해 하나의 엔티티를 저장할 수 있다. */
 		menuRepository.save(modelMapper.map(newMenu, Menu.class));
 	}
