@@ -3,14 +3,9 @@ package jpa.menu.controller;
 import jpa.menu.dto.MenuDTO;
 import jpa.menu.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -58,7 +53,8 @@ public class MenuController {
 
     /* Spring Data JPA 페이징 처리할 때 */
     @GetMapping("/querymethod")
-    public void queryMethodPage() {}
+    public void queryMethodPage() {
+    }
 
     @GetMapping("/search")
     public String findByMenuPrice(@RequestParam Integer menuPrice, Model model) {
@@ -72,14 +68,25 @@ public class MenuController {
 
     }
 
-	@GetMapping("/delete")
-	public void deletePage() {}
-	
-	@PostMapping("/delete")
-	public String deleteMenu(@RequestParam Integer menuCode) {
+    @GetMapping("/delete")
+    public void deletePage() {}
 
-		menuService.deleteMenu(menuCode);
-		
-		return "redirect:/menu/list";
-	}
-}
+    @PostMapping("/delete")
+    public String deleteMenu(@RequestParam Integer menuCode) {
+
+        menuService.deleteMenu(menuCode);
+        return "redirect:/menu/list";
+
+    }
+
+        @PostMapping("/regist")
+        public String registNewMenu (MenuDTO newMenu){
+
+            menuService.registNewMenu(newMenu);
+
+            return "redirect:/menu/list";
+        }
+
+
+    }
+
