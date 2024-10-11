@@ -1,5 +1,6 @@
 package jpa.menu.service;
 
+import jakarta.transaction.Transactional;
 import jpa.menu.dto.MenuDTO;
 import jpa.menu.entity.Menu;
 import jpa.menu.repository.MenuRepository;
