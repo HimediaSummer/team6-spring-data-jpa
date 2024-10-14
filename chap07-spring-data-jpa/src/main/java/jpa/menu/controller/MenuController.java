@@ -89,5 +89,16 @@ public class MenuController {
         return "menu/searchResult";
     }
 
+    @GetMapping("/regist")
+    public void registPage() {}
+
+    @PostMapping("/regist")
+    public String registNewMenu(MenuDTO newMenu) {
+
+        menuService.registNewMenu(newMenu);
+
+        return "redirect:/menu/list";
+    }
+
 
 }
