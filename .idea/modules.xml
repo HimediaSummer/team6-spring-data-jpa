@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jpa.iml" filepath="$PROJECT_DIR$/.idea/modules/jpa.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jpa.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jpa.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jpa.test.iml" filepath="$PROJECT_DIR$/.idea/modules/jpa.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/team6-spring-data-jpa.iml" filepath="$PROJECT_DIR$/.idea/team6-spring-data-jpa.iml" />
     </modules>
   </component>
 </project>
