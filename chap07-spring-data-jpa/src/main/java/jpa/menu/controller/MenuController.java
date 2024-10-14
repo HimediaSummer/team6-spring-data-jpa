@@ -89,5 +89,15 @@ public class MenuController {
         return "menu/searchResult";
     }
 
+    @GetMapping("/delete")
+    public void deletePage() {}
+
+    @PostMapping("/delete")
+    public String deleteMenu(@RequestParam Integer menuCode) {
+
+        menuService.deleteMenu(menuCode);
+
+        return "redirect:/menu/list";
+    }
 
 }
