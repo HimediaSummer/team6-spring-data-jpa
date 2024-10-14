@@ -84,8 +84,10 @@ public class MenuController {
         model.addAttribute("menuList", menuList);
         model.addAttribute("menuPrice", menuPrice);
 
-        return "menu/searchResult";
+        System.out.println("main 확인용 sout");
 
+        return "menu/searchResult";
     }
-    
+
+
 }
