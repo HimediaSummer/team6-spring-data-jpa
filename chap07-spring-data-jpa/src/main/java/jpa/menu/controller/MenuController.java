@@ -88,6 +88,4 @@ public class MenuController {
 
         return "menu/searchResult";
     }
-
-
 }
