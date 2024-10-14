@@ -96,7 +96,6 @@ public class MenuController {
 
     @GetMapping("/regist")
     public void registPage() {}
-
     @PostMapping("/regist")
     public String registNewMenu(MenuDTO newMenu) {
 
@@ -116,7 +115,7 @@ public class MenuController {
         return "redirect:/menu/" + modifyMenu.getMenuCode();
     }
 
-    	@GetMapping("/delete")
+    @GetMapping("/delete")
 	public void deletePage() {}
 	
 	@PostMapping("/delete")
