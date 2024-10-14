@@ -3,20 +3,24 @@ package jpa.menu.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tbl_menu")
+@Table(name="tbl_menu")
 public class Menu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menu_code")
+    @Column(name="menu_code")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int menuCode;
-    @Column(name = "menu_name")
+
+    @Column(name="menu_name")
     private String menuName;
-    @Column(name = "menu_price")
+
+    @Column(name="menu_price")
     private int menuPrice;
-    @Column(name = "category_code")
+
+    @Column(name="category_code")
     private int categoryCode;
-    @Column(name = "orderable_status")
+
+    @Column(name="orderable_status")
     private String orderableStatus;
 
     public Menu() {}
@@ -72,7 +76,7 @@ public class Menu {
 
     @Override
     public String toString() {
-        return "MenuDTO{" +
+        return "Menu{" +
                 "menuCode=" + menuCode +
                 ", menuName='" + menuName + '\'' +
                 ", menuPrice=" + menuPrice +
