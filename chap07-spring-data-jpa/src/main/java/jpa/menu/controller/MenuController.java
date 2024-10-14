@@ -1,18 +1,23 @@
 package jpa.menu.controller;
 
-import jpa.common.Pagenation;
-import jpa.common.PagingButtonInfo;
-import jpa.menu.dto.MenuDTO;
-import jpa.menu.service.MenuService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import jpa.common.Pagenation;
+import jpa.common.PagingButtonInfo;
+import jpa.menu.dto.MenuDTO;
+import jpa.menu.service.MenuService;
+import lombok.extern.slf4j.Slf4j;
 
 /* 설명. @Slf4j(Simple Logging Facade for Java):
  *  Lombok 라이브러리의 어노테이션으로 클래스에 자동으로 SLF4J Logger 인스턴스를 추가해준다.
@@ -88,4 +93,37 @@ public class MenuController {
 
         return "menu/searchResult";
     }
+
+    @GetMapping("/regist")
+    public void registPage() {}
+
+    @PostMapping("/regist")
+    public String registNewMenu(MenuDTO newMenu) {
+
+        menuService.registNewMenu(newMenu);
+
+        return "redirect:/menu/list";
+    }
+
+    @GetMapping("/modify")
+    public void modifyPage() {}
+
+    @PostMapping("/modify")
+    public String modifyMenu(MenuDTO modifyMenu) {
+
+        menuService.modifyMenu(modifyMenu);
+
+        return "redirect:/menu/" + modifyMenu.getMenuCode();
+    }
+
+    	@GetMapping("/delete")
+	public void deletePage() {}
+	
+	@PostMapping("/delete")
+	public String deleteMenu(@RequestParam Integer menuCode) {
+
+		menuService.deleteMenu(menuCode);
+		
+		return "redirect:/menu/list";
+	}
 }
