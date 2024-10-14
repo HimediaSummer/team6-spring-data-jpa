@@ -89,5 +89,17 @@ public class MenuController {
         return "menu/searchResult";
     }
 
+    @GetMapping("/modify")
+    public void modifyPage() {}
+
+    @PostMapping("/modify")
+    public String modifyMenu(MenuDTO modifyMenu) {
+
+        menuService.modifyMenu(modifyMenu);
+
+        return "redirect:/menu/" + modifyMenu.getMenuCode();
+    }
+
+
 
 }
