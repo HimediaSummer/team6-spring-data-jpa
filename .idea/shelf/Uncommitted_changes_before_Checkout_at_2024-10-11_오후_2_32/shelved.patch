@@ -1,0 +1,51 @@
+Index: chap07-spring-data-jpa/src/main/java/jpa/menu/controller/MenuController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jpa.menu.controller;\r\n\r\nimport jpa.menu.dto.MenuDTO;\r\nimport jpa.menu.service.MenuService;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.ui.Model;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.List;\r\n\r\n/* 설명. @Slf4j(Simple Logging Facade for Java):\r\n *  Lombok 라이브러리의 어노테이션으로 클래스에 자동으로 SLF4J Logger 인스턴스를 추가해준다.\r\n *  따라서 개발자는 코드에 별도의 Logger 객체 선언 없이 'log' 변수를 사용해 바로 로깅 가능하다.\r\n *  로깅 프레임워크에 종속되지 않는 방식으로 로깅 인터페이스를 사용할 수 있게 해준다.\r\n * */\r\n@Slf4j\r\n@Controller\r\n@RequestMapping(\"/menu\")\r\npublic class MenuController {\r\n\r\n    private final MenuService menuService;\r\n//    private final Logger log = LoggerFactory.getLogger(getClass());\r\n//    private final Logger log = LoggerFactory.getLogger(\"내맘대로\");\r\n\r\n    public MenuController(MenuService menuService) {\r\n        this.menuService = menuService;\r\n    }\r\n\r\n    /* 설명. Spring Data JPA의 페이징 처리 미적용 */\r\n    @GetMapping(\"/list\")\r\n    public String findMenuList(Model model) {\r\n\r\n        List<MenuDTO> menuList = menuService.findMenuList();\r\n\r\n        model.addAttribute(\"menuList\", menuList);\r\n\r\n        return \"menu/list\";\r\n    }\r\n\r\n    @GetMapping(\"/{menuCode}\")\r\n    public String findMenuByCode(Model model, @PathVariable int menuCode) {\r\n\r\n//        System.out.println(\"menuCode = \" + menuCode);\r\n        log.info(\"input menuCode : {}\", menuCode);\r\n\r\n        MenuDTO foundMenu = menuService.findMenuByCode(menuCode);\r\n\r\n        model.addAttribute(\"menu\", foundMenu);\r\n\r\n        return \"menu/detail\";\r\n    }\r\n\r\n    /* Spring Data JPA 페이징 처리할 때 */\r\n    @GetMapping(\"/querymethod\")\r\n    public void queryMethodPage() {}\r\n\r\n    @GetMapping(\"/search\")\r\n    public String findByMenuPrice(@RequestParam Integer menuPrice, Model model) {\r\n\r\n        List<MenuDTO> menuList = menuService.findByMenuPrice(menuPrice);\r\n\r\n        model.addAttribute(\"menuList\", menuList);\r\n        model.addAttribute(\"menuPrice\", menuPrice);\r\n\r\n        return \"menu/searchResult\";\r\n\r\n    }\r\n\r\n    @GetMapping(\"/delete\")\r\n    public void deletePage() {}\r\n\r\n    @PostMapping(\"/delete\")\r\n    public String deleteMenu(@RequestParam Integer menuCode) {\r\n\r\n        menuService.deleteMenu(menuCode);\r\n\r\n        return \"redirect:/menu/list\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chap07-spring-data-jpa/src/main/java/jpa/menu/controller/MenuController.java b/chap07-spring-data-jpa/src/main/java/jpa/menu/controller/MenuController.java
+--- a/chap07-spring-data-jpa/src/main/java/jpa/menu/controller/MenuController.java	(revision 272999060c56de59ec8bd15055d711216774c9eb)
++++ b/chap07-spring-data-jpa/src/main/java/jpa/menu/controller/MenuController.java	(date 1728624720543)
+@@ -77,6 +77,17 @@
+ 
+         menuService.deleteMenu(menuCode);
+ 
++        return "redirect:/menu/list";
++    }
++
++    @GetMapping("/regist")
++    public void registPage() {}
++
++    @PostMapping("/regist")
++    public String registNewMenu(MenuDTO newMenu) {
++
++        menuService.registNewMenu(newMenu);
++
+         return "redirect:/menu/list";
+     }
+ }
+Index: chap07-spring-data-jpa/src/main/java/jpa/menu/service/MenuService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package jpa.menu.service;\r\n\r\nimport jpa.menu.dto.MenuDTO;\r\nimport jpa.menu.entity.Menu;\r\nimport jpa.menu.repository.MenuRepository;\r\nimport org.modelmapper.ModelMapper;\r\nimport org.springframework.data.domain.Sort;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class MenuService {\r\n\r\n    private final MenuRepository menuRepository;\r\n    private final ModelMapper modelMapper;\r\n\r\n    public MenuService(MenuRepository menuRepository, ModelMapper modelMapper) {\r\n        this.menuRepository = menuRepository;\r\n        this.modelMapper = modelMapper;\r\n    }\r\n\r\n    public List<MenuDTO> findMenuList() {\r\n        List<Menu> menuList = menuRepository.findAll(Sort.by(\"menuCode\").descending());\r\n\r\n        // 1. 람다식사용\r\n        return menuList\r\n                .stream()\r\n                .map(m -> modelMapper.map(m, MenuDTO.class))\r\n                .toList();\r\n        // 2. for문 사용\r\n//        List<MenuDTO> menuDTOList = new ArrayList<>();\r\n//\r\n//        for(Menu m : menuList){\r\n//            MenuDTO menuDTO = modelMapper.map(m, MenuDTO.class);\r\n//            menuDTOList.add(menuDTO);\r\n//        }\r\n//\r\n//        return menuDTOList;\r\n    }\r\n\r\n    public MenuDTO findMenuByCode(int menuCode) {\r\n\r\n        Menu foundMenu = menuRepository.findById(menuCode)\r\n                                        .orElseThrow(IllegalArgumentException::new);\r\n\r\n        return modelMapper.map(foundMenu, MenuDTO.class);\r\n    }\r\n\r\n    public List<MenuDTO> findByMenuPrice(Integer menuPrice) {\r\n\r\n//        List<Menu> menuList = menuRepository.findMenuByMenuPriceGreaterThan(menuPrice);\r\n//        List<Menu> menuList = menuRepository.findByMenuPriceGreaterThan(menuPrice);\r\n//        List<Menu> menuList = menuRepository.findByMenuPriceGreaterThanOrderByMenuPrice(menuPrice);\r\n        List<Menu> menuList = menuRepository.findByMenuPriceGreaterThan(menuPrice, Sort.by(\"menuName\").ascending());\r\n\r\n        return menuList\r\n                .stream()\r\n                .map(m -> modelMapper.map(m, MenuDTO.class))\r\n                .toList();\r\n    }\r\n\r\n    /* 목차. 8. delete */\r\n    @Transactional\r\n    public void deleteMenu(Integer menuCode) {\r\n        menuRepository.deleteById(menuCode);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/chap07-spring-data-jpa/src/main/java/jpa/menu/service/MenuService.java b/chap07-spring-data-jpa/src/main/java/jpa/menu/service/MenuService.java
+--- a/chap07-spring-data-jpa/src/main/java/jpa/menu/service/MenuService.java	(revision 272999060c56de59ec8bd15055d711216774c9eb)
++++ b/chap07-spring-data-jpa/src/main/java/jpa/menu/service/MenuService.java	(date 1728624741185)
+@@ -67,4 +67,12 @@
+     public void deleteMenu(Integer menuCode) {
+         menuRepository.deleteById(menuCode);
+     }
++
++    /* 목차. 6. save - 엔티티 저장 */
++    @Transactional
++    public void registNewMenu(MenuDTO newMenu) {
++
++        /* 설명. CrudRepository에 미리 정의 되어 있는 save() 메소드를 통해 하나의 엔티티를 저장할 수 있다. */
++        menuRepository.save(modelMapper.map(newMenu, Menu.class));
++    }
+ }
